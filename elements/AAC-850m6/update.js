@@ -4,7 +4,7 @@ var $sendEl  = $("#" + properties.submitID);
 var refocus  = properties.Refocus;
     
 if(!$inputEl.length){console.log("Error: Could not find an element with ID `" + properties.inputID + "`! Please verify you have entered the correct ID for the input element. ");}
-if(!$sendEl.length){console.log("Error: Could not find an element with ID `" + properties.inputID + "`! Please verify you have entered the correct ID for the element which will receive the click trigger.");}
+if(!$sendEl.length){console.log("Error: Could not find an element with ID `" + properties.submitID + "`! Please verify you have entered the correct ID for the element which will receive the click trigger.");}
 
 $inputEl.keydown(function(e) {
   //when enter is hit & not shift

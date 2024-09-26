@@ -1,0 +1,10 @@
+{
+    "categories": {
+        "0": "technical"
+    },
+    "data_tracked": false,
+    "description": "This allows you to submit based on the Enter keypress from a multiline input. \n\nThis improves other plugins by allowing dynamic input (for dynamic ID) so that the input can be focused again after being set. ",
+    "image": "//meta-q.cdn.bubble.io/f1726946303626x651879172983398100/bowser2.gif",
+    "license": "private",
+    "name": "Enter keypress Multiline Input"
+}

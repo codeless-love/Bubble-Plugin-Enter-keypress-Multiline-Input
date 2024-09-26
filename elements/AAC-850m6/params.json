@@ -1,0 +1,38 @@
+{
+    "add_is_visible": true,
+    "category": "visual elements",
+    "default_dim": {
+        "height": 20,
+        "width": 20
+    },
+    "display": "Enter keypress Submit",
+    "fields": {
+        "AAD": {
+            "caption": "ID of Input",
+            "doc": "The ID of the input must be unique on the page. If this is in an RU, please randomly generate a unique ID for each instance.",
+            "editor": "DynamicValue",
+            "name": "Input",
+            "rank": 0,
+            "value": "text"
+        },
+        "AAE": {
+            "caption": "ID of Submit",
+            "doc": "The ID of the input must be unique on the page. If this is in an RU, please randomly generate a unique ID for each instance.",
+            "editor": "DynamicValue",
+            "name": "Submit",
+            "rank": 1,
+            "value": "text"
+        },
+        "AAG": {
+            "caption": "Re-focus input after sending",
+            "default_val": true,
+            "editor": "Checkbox",
+            "name": "Refocus",
+            "rank": 2
+        }
+    },
+    "icon": "ion-arrow-left-a",
+    "property_applications": {
+        "Border": true
+    }
+}

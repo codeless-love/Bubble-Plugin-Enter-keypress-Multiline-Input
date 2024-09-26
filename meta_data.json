@@ -1,10 +1,13 @@
 {
     "categories": {
-        "0": "technical"
+        "0": "technical",
+        "1": "chat"
     },
     "data_tracked": false,
-    "description": "This allows you to submit based on the Enter keypress from a multiline input. \n\nThis improves other plugins by allowing dynamic input (for dynamic ID) so that the input can be focused again after being set. ",
-    "image": "//meta-q.cdn.bubble.io/f1726946303626x651879172983398100/bowser2.gif",
+    "description": "Trigger a click on any element by pressing the [Enter] key from inside any input (or any element which has a value). \n\nThis plugin has several advantages over other similar plugins:\n * Only listens for keypress events from the specified input, instead of from anywhere in the page. \n * Works with multiline input and other text editable elements. \n * Allows IDs of input and submit button to be specified dynamically, so that a unique ID string can be used. This is useful if the plugin appears more than once on a page, so you can give unique IDs to every instance so they won't conflict.\n * Has an option to automatically return focus to the input after the element click is triggered, so the user can keep typing. \n * Intelligently manages a delay between the blur event and the click event, so that Bubble has a chance to update the value of the input internally, ensuring that the workflow will see the correct value for the input. \n\nThis plugin is free, open, and maintained by the community. If you see a bug or room for improvement, you can create an issue or even submit your own fixes to the GitHub repository: \n\nhttps://github.com/codeless-love/Bubble-Plugin-Enter-keypress-Multiline-Input",
+    "image": "//meta-q.cdn.bubble.io/f1727373336048x398148044478975100/In%20A%20Bubble%20high%20res%20copy.png",
     "license": "private",
-    "name": "Enter keypress Multiline Input"
+    "link": "https://github.com/codeless-love/Bubble-Plugin-Enter-keypress-Multiline-Input",
+    "name": "Trigger Click with Enter Keypress",
+    "plugin_instructions": "You will need an input and an element which has a CLICK workflow (we will call this the \"send\" button). \n\nBoth the input and the send button need a unique ID. \n\nDrop the element for this plugin into the page, and input the IDs of the input and send button into the plugin element's property editor. \n\nNow when you are typing in the input and press [Enter], the action on the send button will be triggered. \n\nOptionally, you may check the box to return focus to the input immediately. "
 }

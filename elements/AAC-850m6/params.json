@@ -9,23 +9,24 @@
     "fields": {
         "AAD": {
             "caption": "ID of Input",
-            "doc": "The ID of the input must be unique on the page. If this is in an RU, please randomly generate a unique ID for each instance.",
+            "doc": "The element which will listen for ENTER press. Needs to be a unique ID. Will break if more than one element has the same ID on the page. ",
             "editor": "DynamicValue",
-            "name": "Input",
+            "name": "inputID",
             "rank": 0,
             "value": "text"
         },
         "AAE": {
-            "caption": "ID of Submit",
-            "doc": "The ID of the input must be unique on the page. If this is in an RU, please randomly generate a unique ID for each instance.",
+            "caption": "ID of Submit Button",
+            "doc": "The element to be triggered when ENTER is pressed from the input.  Needs to be a unique ID. Will break if more than one element has the same ID on the page. ",
             "editor": "DynamicValue",
-            "name": "Submit",
+            "name": "submitID",
             "rank": 1,
             "value": "text"
         },
         "AAG": {
             "caption": "Re-focus input after sending",
             "default_val": true,
+            "doc": "When this box is checked, the input will be reset and re-focused after [Enter] is typed. Do not use this option if you are manually resetting and focusing in your Bubble workflow.",
             "editor": "Checkbox",
             "name": "Refocus",
             "rank": 2

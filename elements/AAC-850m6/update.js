@@ -1,10 +1,14 @@
 function(instance, properties, context) {
-var $inputEl = $("#" + properties.Input);
-var $sendEl  = $("#" + properties.Submit);
+var $inputEl = $("#" + properties.inputID);
+var $sendEl  = $("#" + properties.submitID);    
 var refocus  = properties.Refocus;
-  $(window).keydown(function(e) {
-  //when enter is hit & not shift & this input is focused (to prevent other instances from also firing)   
-  if (e.keyCode == 13 && !e.shiftKey && $inputEl[0] === document.activeElement) {
+    
+if(!$inputEl.length){console.log("Error: Could not find an element with ID `" + properties.inputID + "`! Please verify you have entered the correct ID for the input element. ");}
+if(!$sendEl.length){console.log("Error: Could not find an element with ID `" + properties.inputID + "`! Please verify you have entered the correct ID for the element which will receive the click trigger.");}
+
+$inputEl.keydown(function(e) {
+  //when enter is hit & not shift
+  if (e.keyCode == 13 && !e.shiftKey) {
     e.preventDefault();
     console.log(
         "Enter keypress Multiline Input plugin just saw "
@@ -22,6 +26,8 @@ var refocus  = properties.Refocus;
         setTimeout(function() { $inputEl.val('') }, 50);
         setTimeout(function() { $inputEl.focus(); }, 51);
       }
-    }}
-  });
-}
+    } else {
+       console.log("Error: Could not find an element with the ID `" + properties.submitID + "`!");
+    }
+  }
+});}

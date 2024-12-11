@@ -1,3 +1,3 @@
-This is a repository based on the [Bubble](https://bubble.io) plugin 'Enter keypress Multiline Input'. This lets you use Github's functionality in terms of version control, forks and pull requests. Note that the the plugin code is stored on Bubble's servers, and you need to synchronize your repository in the Bubble Plugin Editor. 
+This is a repository based on the Bubble plugin [Enter keypress Multiline Input](https://bubble.io/plugin/trigger-click-with-enter-keypress-1726945853171x150491307754127360), and is a free, open source, community maintained [Codeless Love plugin](https://bubble.io/contributor/1711029653464x413419669352247360).
 
- This plugin can be used in [Bubble applications](https://bubble.io).
+We welcome improvements and bugfixes to this plugin!

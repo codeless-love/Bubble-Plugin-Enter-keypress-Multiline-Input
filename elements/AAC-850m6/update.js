@@ -1,62 +1,49 @@
 function(instance, properties, context) {
-    var inputID = properties.inputID;
-    var submitID = properties.submitID;
-    
-    // Update the refocus setting in case the user changes it dynamically
-    instance.data.refocus = properties.Refocus;
+  var $inputEl = $("#" + properties.inputID);
+  var $sendEl  = $("#" + properties.submitID);
+  var refocus  = properties.Refocus;
+  var refocusDelay  = 1;
+      
+  if(!$inputEl.length){console.warn("Error: Could not find an element with ID `" + properties.inputID + "`! Please verify you have entered the correct ID for the input element. ");}
+  if(!$sendEl.length){console.warn("Error: Could not find an element with ID `" + properties.submitID + "`! Please verify you have entered the correct ID for the element which will receive the click trigger.");}
 
-    // Only bind listeners if the IDs are new or haven't been bound yet
-    if (instance.data.boundInputID !== inputID || instance.data.boundSubmitID !== submitID) {
-        
-        // 1. CLEANUP: If we previously bound listeners to old IDs, remove them first
-        if (instance.data.boundInputID) {
-            $("#" + instance.data.boundInputID).off('.enterPlugin');
-        }
-        if (instance.data.boundSubmitID) {
-            $("#" + instance.data.boundSubmitID).off('.enterPlugin');
-        }
-        
-        var $inputEl = $("#" + inputID);
-        var $sendEl  = $("#" + submitID);
+  // CLEANUP: Remove old listeners to prevent memory leaks and exponential firing
+  $inputEl.off('keydown.enterPlugin');
+  $sendEl.off('mousedown.enterPlugin touchstart.enterPlugin click.enterPlugin');
 
-        if (!$inputEl.length) console.warn("Plugin Error: Input ID `" + inputID + "` not found.");
-        if (!$sendEl.length) console.warn("Plugin Error: Submit ID `" + submitID + "` not found.");
+  // 1. MOUSE USER SNAPSHOT (Beat Bubble's click to the punch)
+  // This updates the state BEFORE the physical click finishes, but DOES NOT clear the input yet.
+  // If they click down but drag their mouse away to cancel, nothing breaks!
+  $sendEl.on('mousedown.enterPlugin touchstart.enterPlugin', function() {
+    instance.publishState('submittedText', $inputEl[0].value);
+  });
 
-        // 2. BIND SUBMIT BUTTON (Mousedown to beat Bubble's click listener)
-        $sendEl.on('mousedown.enterPlugin touchstart.enterPlugin', function() {
-            var text = instance.data.publishInputText($inputEl);
-            console.log("-Direct button interaction published `" + text + "` before click.");
-            
-            if (instance.data.refocus) {
-                setTimeout(function() { $inputEl.val('').trigger('input'); }, instance.data.refocusDelay);
-                setTimeout(function() { $inputEl.focus(); }, instance.data.refocusDelay + 1);
-            }
-        });
-
-        // 3. BIND INPUT ELEMENT (Enter key)
-        $inputEl.on('keydown.enterPlugin', function(e) {
-            if (e.keyCode == 13 && !e.shiftKey) {
-                e.preventDefault();
-                
-                var text = instance.data.publishInputText($inputEl);
-                console.log("-Enter keypress published `" + text + "`");
-                
-                $inputEl.blur();
-                
-                if ($sendEl.length) {
-                    $sendEl.focus();
-                    $sendEl.click(); // Trigger the actual workflow
-                    
-                    if (instance.data.refocus) {
-                        setTimeout(function() { $inputEl.val('').trigger('input'); }, instance.data.refocusDelay);
-                        setTimeout(function() { $inputEl.focus(); }, instance.data.refocusDelay + 1);
-                    }
-                }
-            }
-        });
-
-        // 4. SAVE STATE: Record these IDs so we don't re-bind on the next update
-        instance.data.boundInputID = inputID;
-        instance.data.boundSubmitID = submitID;
+  // 2. THE UNIVERSAL CLEAR & REFOCUS
+  // This fires on physical mouse clicks AND when we programmatically trigger it with Enter
+  $sendEl.on('click.enterPlugin', function() {
+    if(refocus) {
+      setTimeout(function() { $inputEl.val(''); }, refocusDelay);
+      setTimeout(function() { $inputEl.focus(); }, (refocusDelay + 1));
     }
+  });
+
+  // 3. KEYBOARD USER SNAPSHOT & TRIGGER
+  $inputEl.on('keydown.enterPlugin', function(e) {
+    if (e.keyCode == 13 && !e.shiftKey) {
+      e.preventDefault();
+      
+      // Take the snapshot
+      var inputValueWhenSubmitted = $inputEl[0].value;
+      instance.publishState('submittedText', inputValueWhenSubmitted);
+      
+      $inputEl.blur(); // give Bubble the opportunity to see that this input has changed
+      
+      if($sendEl.length) {
+        $sendEl.focus(); // belt and suspenders
+        
+        // This triggers Bubble's native workflow AND the universal clearing function above
+        $sendEl.click(); 
+      }
+    }
+  });
 }

@@ -36,7 +36,7 @@
             "default_val": false,
             "doc": "To avoid race conditions, DO NOT retrieve the value from the input directly. Instead, get the submittedText state off of the plugin element. This checkbox doesn't do anything, it's just there to help you understand how to use this plugin.",
             "editor": "Checkbox",
-            "name": "I am retrieving the input value from this plugin's element's submittedText state, instead of from the input",
+            "name": "I confirm that I am retrieving the input value from this plugin's element's submittedText state, instead of from the input",
             "optional": false,
             "rank": 3
         }

@@ -9,5 +9,6 @@
     "license": "open_source",
     "link": "https://github.com/codeless-love/Bubble-Plugin-Enter-keypress-Multiline-Input",
     "name": "Trigger Click with Enter Keypress",
+    "platforms_new": "web",
     "plugin_instructions": "You will need an input and an element which has a CLICK workflow (we will call this the \"send\" button). \n\n*Pro tip: in your Click workflow, do not retrieve the input's value directly from the input! Instead, retrieve it from the plugin element's submittedText state. This will eliminate most race conditions.*\n\nBoth the input and the send button need a unique ID. \n\nDrop the element for this plugin into the page, and input the IDs of the input and send button into the plugin element's property editor. \n\nNow when you are typing in the input and press [Enter], the action on the send button will be triggered. \n\nOptionally, you may check the box to return focus to the input immediately. \n\nMake sure the element is placed in the page *after* both the input and the click element, otherwise it won't load."
 }

@@ -30,10 +30,31 @@
             "editor": "Checkbox",
             "name": "Refocus",
             "rank": 2
+        },
+        "AAI": {
+            "caption": "Confirm you are retrieving the input value from this plugin's element's submittedText state, instead of from the input",
+            "default_val": false,
+            "doc": "To avoid race conditions, DO NOT retrieve the value from the input directly. Instead, get the submittedText state off of the plugin element. This checkbox doesn't do anything, it's just there to help you understand how to use this plugin.",
+            "editor": "Checkbox",
+            "name": "I confirm that I am retrieving the input value from this plugin's element's submittedText state, instead of from the input",
+            "optional": false,
+            "rank": 3
         }
     },
-    "icon": "ion-arrow-left-a",
+    "has_reset_fn": true,
+    "icon": "ion-arrow-return-left",
     "property_applications": {
         "Border": true
+    },
+    "states": {
+        "AAJ": {
+            "caption": "Submitted Text",
+            "doc": "The text that the user just submitted. Use this instead of the input's value in your workflow to avoid race conditions.",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "submittedText",
+            "value": "text"
+        }
     }
 }

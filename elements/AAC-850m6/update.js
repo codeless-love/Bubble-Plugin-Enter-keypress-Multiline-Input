@@ -1,33 +1,62 @@
 function(instance, properties, context) {
-var $inputEl = $("#" + properties.inputID);
-var $sendEl  = $("#" + properties.submitID);    
-var refocus  = properties.Refocus;
+    var inputID = properties.inputID;
+    var submitID = properties.submitID;
     
-if(!$inputEl.length){console.log("Error: Could not find an element with ID `" + properties.inputID + "`! Please verify you have entered the correct ID for the input element. ");}
-if(!$sendEl.length){console.log("Error: Could not find an element with ID `" + properties.submitID + "`! Please verify you have entered the correct ID for the element which will receive the click trigger.");}
+    // Update the refocus setting in case the user changes it dynamically
+    instance.data.refocus = properties.Refocus;
 
-$inputEl.keydown(function(e) {
-  //when enter is hit & not shift
-  if (e.keyCode == 13 && !e.shiftKey) {
-    e.preventDefault();
-    console.log(
-        "Enter keypress Multiline Input plugin just saw "
-        + $inputEl[0].value
-        + " in #"
-        + $inputEl.attr("id")
-        + " and triggered a click on #"
-        + $sendEl.attr("id")
-    );
-    $inputEl.blur();//give Bubble the opportunity to see that this input has changed
-    if($sendEl.length) {
-      $sendEl.click();
-      if(refocus) {
-        //wait before resetting the value, so that Bubble has a chance to pick it up in the action. average time between keypresses is 76ms with a deviation of 22ms, so 50ms is the longest we can set this without risking missing the first letter of the next message
-        setTimeout(function() { $inputEl.val('') }, 50);
-        setTimeout(function() { $inputEl.focus(); }, 51);
-      }
-    } else {
-       console.log("Error: Could not find an element with the ID `" + properties.submitID + "`!");
+    // Only bind listeners if the IDs are new or haven't been bound yet
+    if (instance.data.boundInputID !== inputID || instance.data.boundSubmitID !== submitID) {
+        
+        // 1. CLEANUP: If we previously bound listeners to old IDs, remove them first
+        if (instance.data.boundInputID) {
+            $("#" + instance.data.boundInputID).off('.enterPlugin');
+        }
+        if (instance.data.boundSubmitID) {
+            $("#" + instance.data.boundSubmitID).off('.enterPlugin');
+        }
+        
+        var $inputEl = $("#" + inputID);
+        var $sendEl  = $("#" + submitID);
+
+        if (!$inputEl.length) console.warn("Plugin Error: Input ID `" + inputID + "` not found.");
+        if (!$sendEl.length) console.warn("Plugin Error: Submit ID `" + submitID + "` not found.");
+
+        // 2. BIND SUBMIT BUTTON (Mousedown to beat Bubble's click listener)
+        $sendEl.on('mousedown.enterPlugin touchstart.enterPlugin', function() {
+            var text = instance.data.publishInputText($inputEl);
+            console.log("-Direct button interaction published `" + text + "` before click.");
+            
+            if (instance.data.refocus) {
+                setTimeout(function() { $inputEl.val('').trigger('input'); }, instance.data.refocusDelay);
+                setTimeout(function() { $inputEl.focus(); }, instance.data.refocusDelay + 1);
+            }
+        });
+
+        // 3. BIND INPUT ELEMENT (Enter key)
+        $inputEl.on('keydown.enterPlugin', function(e) {
+            if (e.keyCode == 13 && !e.shiftKey) {
+                e.preventDefault();
+                
+                var text = instance.data.publishInputText($inputEl);
+                console.log("-Enter keypress published `" + text + "`");
+                
+                $inputEl.blur();
+                
+                if ($sendEl.length) {
+                    $sendEl.focus();
+                    $sendEl.click(); // Trigger the actual workflow
+                    
+                    if (instance.data.refocus) {
+                        setTimeout(function() { $inputEl.val('').trigger('input'); }, instance.data.refocusDelay);
+                        setTimeout(function() { $inputEl.focus(); }, instance.data.refocusDelay + 1);
+                    }
+                }
+            }
+        });
+
+        // 4. SAVE STATE: Record these IDs so we don't re-bind on the next update
+        instance.data.boundInputID = inputID;
+        instance.data.boundSubmitID = submitID;
     }
-  }
-});}
+}
